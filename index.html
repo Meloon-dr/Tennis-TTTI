@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTTI 网球全维度人格测评 V3.0 专业版</title>
+    <title>TTTI 网球人格测评 V3.0</title>
     <style>
-        :root { --primary: #27ae60; --accent: #e67e22; --bg: #f4f7f6; }
-        body { font-family: 'PingFang SC', sans-serif; background: linear-gradient(135deg, #1e3c72, #2a5298); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
-        #app { width: 100%; max-width: 700px; background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); backdrop-filter: blur(15px); }
-        .progress-container { width: 100%; height: 10px; background: #dfe6e9; border-radius: 5px; margin-bottom: 30px; }
-        #progress-bar { height: 100%; width: 0%; background: linear-gradient(to right, #27ae60, #2ecc71); border-radius: 5px; transition: width 0.4s; }
-        .question-box h2 { font-size: 1.25rem; color: #2c3e50; margin-bottom: 25px; min-height: 3rem; }
-        .options { display: grid; gap: 12px; }
-        .option-btn { padding: 14px 20px; border: 1.5px solid #dcdde1; border-radius: 12px; background: white; cursor: pointer; transition: all 0.2s; text-align: left; font-size: 0.95rem; color: #2f3640; }
-        .option-btn:hover { border-color: var(--primary); background: #f1fcf4; transform: translateX(5px); }
+        :root { --primary: #27ae60; --accent: #e67e22; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 20px; margin: 0; min-height: 100vh; align-items: center; }
+        #app { width: 100%; max-width: 600px; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); box-sizing: border-box; }
+        .progress-container { width: 100%; height: 8px; background: #eee; border-radius: 4px; margin-bottom: 20px; }
+        #progress-bar { height: 100%; width: 0%; background: var(--primary); border-radius: 4px; transition: 0.3s; }
+        .options { display: grid; gap: 12px; margin-top: 25px; }
+        .option-btn { padding: 16px; border: 1px solid #ddd; border-radius: 12px; background: white; cursor: pointer; text-align: left; font-size: 1rem; transition: 0.2s; }
+        .option-btn:hover { border-color: var(--primary); background: #f9fffb; transform: translateX(5px); }
         #result-container { display: none; text-align: center; }
-        .poster { background: #27ae60; color: white; padding: 40px; border-radius: 20px; margin-bottom: 20px; }
-        #mascot-img { width: 140px; height: auto; margin-bottom: 15px; animation: float 3s infinite ease-in-out; }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .analysis-card { background: white; padding: 25px; border-radius: 15px; text-align: left; border: 1px solid #eee; }
+        .poster { padding: 40px 20px; border-radius: 15px; color: white; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        #mascot-img { width: 160px; height: auto; margin-bottom: 15px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2)); animation: float 3s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        h2 { font-size: 1.25rem; color: #2c3e50; line-height: 1.5; margin: 10px 0; }
+        #res-analysis { text-align: left; background: #f8f9fa; padding: 20px; border-radius: 10px; font-size: 0.9rem; line-height: 1.8; color: #444; }
     </style>
 </head>
 <body>
@@ -26,123 +26,137 @@
 <div id="app">
     <div id="quiz-container">
         <div class="progress-container"><div id="progress-bar"></div></div>
-        <p id="meta" style="color: #7f8c8d; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px;"></p>
-        <h2 id="q-text">数据加载中...</h2>
+        <p id="meta" style="color: #888; font-size: 0.85rem; font-weight: bold; margin: 0;"></p>
+        <h2 id="q-text">测评初始化中...</h2>
         <div class="options" id="options"></div>
     </div>
 
     <div id="result-container">
         <div class="poster" id="poster">
-            <img id="mascot-img" src="" alt="吉祥物">
-            <h1 id="res-style" style="margin:10px 0;"></h1>
-            <div id="res-code" style="background:rgba(255,255,255,0.2); display:inline-block; padding:5px 15px; border-radius:5px; letter-spacing:2px;"></div>
-            <p id="res-desc" style="margin-top:20px; opacity:0.9;"></p>
+            <img id="mascot-img" src="" alt="我的网球吉祥物">
+            <h1 id="res-style" style="margin: 10px 0;"></h1>
+            <p id="res-desc" style="opacity: 0.9; font-style: italic;"></p>
         </div>
-        <div class="analysis-card" id="res-analysis"></div>
-        <button onclick="location.reload()" style="margin-top:25px; padding:12px 40px; background:var(--accent); color:white; border:none; border-radius:30px; cursor:pointer;">重新测试</button>
+        <div id="res-analysis"></div>
+        <button onclick="location.reload()" style="margin-top:25px; padding:12px 30px; background:var(--accent); color:white; border:none; border-radius:25px; cursor:pointer; font-weight:bold;">重新测评</button>
     </div>
 </div>
 
 <script>
+    // 50道题目数据
     const questions = [
-        // 第一部分：竞技心理 (Q1-10)
-        { q: "1. 在高压分(如Deuce)时,你的主动进攻欲望:", d: "E", opts: ["极度恐惧,只想回球", "犹豫不决", "随缘发挥", "比较果断", "渴望进攻,极度自信"] },
-        { q: "2. 面对大比分落后(如0-4),你的心理韧性:", d: "E", opts: ["直接摆烂", "情绪化严重", "正常打球", "尝试调整战术", "越挫越勇,寻求逆转"] },
-        { q: "3. 击球时,你脑海中对“完美动作”的执念:", d: "E", opts: ["无执念", "偶尔考虑", "比较在意", "高度纠结", "强迫症级别纠结动作"] },
-        { q: "4. 你对网球场感官信息(如击球声、线床震动)的捕捉:", d: "E", opts: ["毫无感觉", "感觉模糊", "正常捕捉", "比较敏感", "极度敏锐(Se活跃)"] },
-        { q: "5. 赛前制定具体战术计划并执行的频率:", d: "E", opts: ["从不计划", "偶尔想一下", "有大致方向", "计划详尽", "严格执行战术SOP"] },
-        { q: "6. 在比赛现场被干扰(如场外噪音)时的抗干扰能力:", d: "E", opts: ["瞬间崩溃", "明显烦躁", "有察觉但能坚持", "基本无视", "屏息凝神,完全不受干扰"] },
-        { q: "7. 对赢球的渴望程度(相比于社交乐趣):", d: "E", opts: ["纯社交", "随便赢赢", "胜负参半", "比较在乎胜负", "极度渴望竞技胜利"] },
-        { q: "8. 比赛休息期间,你进行自我对话的积极程度:", d: "E", opts: ["只有自我否定", "沉默或迷茫", "偶尔自我暗示", "积极自我打气", "有条理的心理重建"] },
-        { q: "9. 面对“运气球”影响比赛时,情绪恢复的速度:", d: "E", opts: ["一直记恨", "影响好几分", "下一分恢复", "瞬间接受", "完全无视运气因素"] },
-        { q: "10. 你的网球偶像更符合哪种特质:", d: "E", opts: ["优雅艺术流", "随性灵感流", "暴力美学流", "铁血磨床流", "精确制导流"] },
-
-        // 第二部分：肌肉动力链 (Q11-25)
-        { q: "11. 正手击球的力量感知源泉:", d: "B", opts: ["手腕手指拽", "大臂抡", "肩膀带动", "转髋/核心带动", "蹬地-转髋-爆发"] },
-        { q: "12. 随挥(Follow Through)动作的完整度:", d: "B", opts: ["只有触球", "短暂随挥", "随挥到身体侧面", "完整收拍到肩膀", "动作流畅且身体转正"] },
-        { q: "13. 垫步(Split Step)在相持中的覆盖频率:", d: "B", opts: ["无", "仅接发球", "偶尔记得", "绝大多数球", "每球必垫步"] },
-        { q: "14. 发球时“挠背”蓄力动作的连贯性:", d: "B", opts: ["直上直下", "有点停顿", "基本成型", "蓄力感明显", "流畅动力传递"] },
-        { q: "15. 击球后重心的恢复与回位速度:", d: "B", opts: ["留在原地", "缓慢移动", "正常回位", "能够二次垫步", "动态平衡极佳"] },
-        { q: "16. 反手位(双反或单反)转肩的深度:", d: "B", opts: ["只伸胳膊", "侧身不足", "侧身及格", "后背对网", "极佳扭转爆发"] },
-        { q: "17. 击球瞬间双眼注视球的稳定性:", d: "B", opts: ["乱看", "提早看落点", "看到击球", "能看到球线摩擦", "盯着球直至穿弦"] },
-        { q: "18. 截击时非持拍手(辅助手)的平衡支撑感:", d: "B", opts: ["垂着没用", "有动作但多余", "辅助引拍", "有效保持身体平衡", "完美的动态支撑"] },
-        { q: "19. 面对高压球时脚步的调整(碎步):", d: "B", opts: ["站着等", "大跨步跑", "有碎步调整", "碎步频率快且稳", "预判精准+碎步落位"] },
-        { q: "20. 开放式站位(Open Stance)的蹬地爆发感:", d: "B", opts: ["只能被动救球", "腿部没发力", "有一定蹬地", "蹬地后能快速回弹", "具备职业级底线反击力"] },
-        { q: "21. 发球抛球的稳定性(落点偏差):", d: "B", opts: ["满天飞", "经常重抛", "偶尔失误", "非常稳定", "具备精准制导能力"] },
-        { q: "22. 击球前握拍的放松程度:", d: "B", opts: ["全程死抓", "比较僵硬", "松紧适中", "松如鞭子", "完美的节奏性收紧"] },
-        { q: "23. 身体核心在相持中的稳定性(是否摇晃):", d: "B", opts: ["随球乱倒", "摇摆不定", "比较稳定", "钢柱般稳健", "动态平衡极度优雅"] },
-        { q: "24. 二发时的膝盖蹬伸与向上发力:", d: "B", opts: ["没膝盖动作", "偶尔蹲一下", "正常蹬伸", "蹬伸积极,弧线高", "弹跳力转化率极高"] },
-        { q: "25. 被动防守时利用“切削”减慢节奏的能力:", d: "B", opts: ["只会挡", "切削总是出界/下网", "能切回场内", "切削沉稳低平", "切削是核心防御武器"] },
-
-        // 第三部分：实战技术 (Q26-40)
-        { q: "26. 一发成功率平均值:", d: "P", opts: ["<30%", "30%-45%", "45%-60%", "60%-75%", ">75%"] },
-        { q: "27. 二发面对同水平选手时的“被进攻”频率:", d: "P", opts: ["必被扫死", "经常受迫", "偶尔受迫", "互有攻守", "二发具备统治力"] },
-        { q: "28. 面对浅球(出浅球)的终结成功率:", d: "P", opts: ["手软送分", "变线失误多", "正常打回", "绝大多数得分", "见浅球必杀"] },
-        { q: "29. 双打中“抢网”意识的主动程度:", d: "P", opts: ["躲在底线", "被动站位", "顺势抢网", "积极寻找机会", "职业级封堵意识"] },
-        { q: "30. 连续底线相持而不失误的极限拍数:", d: "P", opts: ["1-2拍", "3-4拍", "5-7拍", "8-12拍", "20拍以上(人肉磨床)"] },
-        { q: "31. 变线攻击(斜线变直线)的稳定性:", d: "P", opts: ["打必飞", "成功率<30%", "五五开", "很有准头", "随心所欲精准制导"] },
-        { q: "32. 高压球(Smash)的心理舒适度与成功率:", d: "P", opts: ["噩梦", "经常打飞", "正常把握", "稳定得分", "见高必杀"] },
-        { q: "33. 被对手放短球后的追赶速度与救球手感:", d: "P", opts: ["跑不动", "跑去只会挑高球", "能反放短", "变线或切深球", "救球后反杀能力极强"] },
-        { q: "34. 面对对手重球(Deep Heavys)的“抗压”回球深度:", d: "P", opts: ["被直接压死", "全部回浅", "正常深度", "能回拉深球反制", "借力打力暴力反抽"] },
-        { q: "35. 接发球(Return)的主动进攻频率:", d: "P", opts: ["缩手缩脚", "纯挡回", "偶尔侧身抢攻", "积极压迫对手二发", "接发球是得分武器"] },
-        { q: "36. 过去三场比赛每盘的双误数量:", d: "P", opts: [">8个", "5-7个", "3-4个", "1-2个", "0个"] },
-        { q: "37. 面对“老登型”选手推挡回球的处理能力:", d: "P", opts: ["被磨疯", "不知所措", "拼消耗", "变节奏反制", "降维打击"] },
-        { q: "38. 二发是否带有明显的“旋转(Spin)”:", d: "P", opts: ["毫无旋转", "极少量", "稳定侧旋", "强烈上旋/侧旋", "弹跳高度过肩"] },
-        { q: "39. 跨步救球(Lateral Movement)后重心的稳定性:", d: "P", opts: ["直接摔倒", "晃动严重", "勉强支撑", "稳健站立", "甚至能滑行并迅速回弹"] },
-        { q: "40. 对于球线掉磅或环境潮湿的感官敏感度:", d: "P", opts: ["完全无感", "只有手感变差感", "有所察觉", "比较敏感", "精准调控穿线数据"] },
-
-        // 第四部分：战术逻辑 (Q41-50)
-        { q: "41. 局间休息时对上一盘失误分布的“复盘”深度:", d: "S", opts: ["脑子空白", "只记得比分", "复盘大致印象", "逻辑拆解原因", "形成下一阶段新战术书"] },
-        { q: "42. 面对不同对手(暴力vs防反)调整打法的频率:", d: "S", opts: ["只会这一招", "偶尔变变", "有意识调整", "切换打法自如", "战术大师级别调度"] },
-        { q: "43. 对“百分比网球”的执行力:", d: "S", opts: ["只想打死死角", "经常乱打", "明白逻辑但做不到", "严格执行打深球", "极佳胜率逻辑规划"] },
-        { q: "44. 在双打中给搭档制造机会的“奉献意识”:", d: "S", opts: ["各打各的", "没意识", "有战术沟通", "积极补位制造机会", "默契团队大脑"] },
-        { q: "45. 应对赛场突发状况(如场地湿滑、强风)的心理弹性:", d: "S", opts: ["爆炸", "烦躁不安", "勉强适应", "快速调整", "享受恶劣环境挑战"] },
-        { q: "46. 对比赛节奏的掌控能力(快慢调节):", d: "S", opts: ["被对手带跑", "无节奏感", "偶尔能慢下来", "擅长通过拍拍球调节", "节奏由你定义"] },
-        { q: "47. 是否具备明确的“得分套路”:", d: "S", opts: ["无", "靠碰运气", "有一两套", "战术库丰富", "战术预判精准"] },
-        { q: "48. 对对手体能状态和步伐迟缓的观察敏锐度:", d: "S", opts: ["只顾自己", "没看过", "偶尔注意到", "密切关注其弱点", "洞若观火"] },
-        { q: "49. 在底线是否具备“调动对手跑动”的几何美学意识:", d: "S", opts: ["只有回球", "回中路为主", "尝试拉开角度", "线路布局清晰", "像下棋一样调动"] },
-        { q: "50. (INFJ) 比赛结束后,通过直觉感知到本场“真理”的瞬间:", d: "S", opts: ["没有感悟", "觉得累", "有些细节在闪回", "深刻复盘逻辑", "获得了一种进阶的顿悟"] }
+        { q: "在高压分（如 Deuce）时，你的主动进攻欲望：", d: "E" },
+        { q: "面对大比分落后，你的心理韧性表现：", d: "E" },
+        { q: "击球时，你脑海中对“完美动作”的纠结度：", d: "E" },
+        { q: "你对球场感官信息（如球线摩擦声）的捕捉：", d: "E" },
+        { q: "赛前制定具体战术计划并执行的频率：", d: "E" },
+        { q: "比赛现场被干扰时的专注力保护能力：", d: "E" },
+        { q: "赢球带来的竞技满足感占比：", d: "E" },
+        { q: "局间休息时，进行积极自我对话的频率：", d: "E" },
+        { q: "面对运气球丢分时，情绪恢复的速度：", d: "E" },
+        { q: "对网球比赛中“直觉预判”的依赖度：", d: "E" },
+        { q: "正手击球力量从脚掌蹬地传导的流畅度：", d: "B" },
+        { q: "击球随挥动作完整结束在对侧肩膀的频率：", d: "B" },
+        { q: "底线拉锯中，垫步（Split Step）的使用频率：", d: "B" },
+        { q: "发球时“挠背”蓄力动作的充分程度：", d: "B" },
+        { q: "击球后重心恢复并回到场内中央的速度：", d: "B" },
+        { q: "反手击球时，肩膀转动幅度的彻底性：", d: "B" },
+        { q: "击球瞬间双眼紧盯球线接触点的稳定性：", d: "B" },
+        { q: "截击时非持拍手协助平衡的作用力：", d: "B" },
+        { q: "高压球时，利用碎步落位并侧转身体的频率：", d: "B" },
+        { q: "开放式站位中蹬地瞬间的爆发力反馈：", d: "B" },
+        { q: "发球抛球在空间中落点的稳定性：", d: "B" },
+        { q: "击球前那一刻，握拍肌肉的放松程度：", d: "B" },
+        { q: "核心在相持中维持身体不摇晃的支撑感：", d: "B" },
+        { q: "二发时通过膝盖蹬伸产生上旋的能力：", d: "B" },
+        { q: "被动救球时利用切削改变节奏的成功率：", d: "B" },
+        { q: "一发成功率的平均表现：", d: "P" },
+        { q: "二发被对手直接侧身抢攻的频率：", d: "P" },
+        { q: "面对中场浅球时的直接终结成功率：", d: "P" },
+        { q: "双打中在网前积极封堵干扰的频率：", d: "P" },
+        { q: "连续底线相持不主动失误的极限拍数：", d: "P" },
+        { q: "尝试变线攻击时能稳在界内的稳定性：", d: "P" },
+        { q: "高压球面对普通挑高球的得分把握性：", d: "P" },
+        { q: "被放短球后，能够快速启动救球的频率：", d: "P" },
+        { q: "面对对手重球压制时，回球深度的表现：", d: "P" },
+        { q: "接发球端，主动施压对方二发的侵略性：", d: "P" },
+        { q: "每盘比赛中双误次数的控制能力：", d: "P" },
+        { q: "面对老登型切削能保持耐心的能力：", d: "P" },
+        { q: "二发带有明显旋转以防被扫的威胁性：", d: "P" },
+        { q: "大范围救球后，迅速二次启动的能力：", d: "P" },
+        { q: "对球拍磅数微弱变化影响手感的敏感度：", d: "P" },
+        { q: "分析对手弱点并制定下一局计划的深度：", d: "S" },
+        { q: "根据对手打法调整自己节奏的灵活性：", d: "S" },
+        { q: "对“百分比网球”战术的坚决执行力：", d: "S" },
+        { q: "双打中与搭档通过战术沟通的默契度：", d: "S" },
+        { q: "在恶劣环境下调整击球策略的意识：", d: "S" },
+        { q: "对场上节奏感（如拍球次数）的控制：", d: "S" },
+        { q: "是否具备明确的得分套路：", d: "S" },
+        { q: "对对手情绪崩溃瞬间的捕捉利用能力：", d: "S" },
+        { q: "在底线具备调动对手左右奔跑的意识：", d: "S" },
+        { q: "赛后感知到本场“进阶点”的深度：", d: "S" }
     ];
 
-    let idx = 0, scores = { E: 0, B: 0, P: 0, S: 0 };
+    let idx = 0;
+    let scores = { E: 0, B: 0, P: 0, S: 0 };
 
+    // 核心渲染函数
     function render() {
-        if (idx >= questions.length) { show(); return; }
+        if (idx >= questions.length) {
+            show(); 
+            return;
+        }
         const q = questions[idx];
-        document.getElementById('meta').innerText = `第 ${idx + 1} / 50 题`;
+        
+        // 更新 UI 文本
+        document.getElementById('meta').innerText = `STEP ${idx + 1} / 50`;
         document.getElementById('q-text').innerText = q.q;
-        const optsDiv = document.getElementById('options');
-        optsDiv.innerHTML = '';
-        q.opts.forEach((label, i) => {
+        
+        const optsArea = document.getElementById('options');
+        optsArea.innerHTML = '';
+        
+        const labels = ["从未/极弱", "偶尔/较弱", "一般/标准", "经常/优秀", "总是/卓越"];
+        labels.forEach((text, i) => {
             const btn = document.createElement('button');
             btn.className = 'option-btn';
-            btn.innerText = `${i+1}. ${label}`;
-            btn.onclick = () => { scores[q.d] += (i+1); idx++; render(); };
-            optsDiv.appendChild(btn);
+            btn.innerText = `${i + 1}. ${text}`;
+            btn.onclick = () => {
+                scores[q.d] += (i + 1);
+                idx++;
+                render();
+            };
+            optsArea.appendChild(btn);
         });
-        document.getElementById('progress-bar').style.width = `${(idx/50)*100}%`;
+        
+        // 更新进度条
+        document.getElementById('progress-bar').style.width = `${(idx / 50) * 100}%`;
     }
 
+    // 结果展示函数
     function show() {
         document.getElementById('quiz-container').style.display = 'none';
         document.getElementById('result-container').style.display = 'block';
-        let s="", d="", c="", m="";
-        if (scores.E >= 35) { s="底线进攻型"; d="重炮手"; c="#e74c3c"; m="ab.png"; }
-        else if (scores.S >= 40) { s="睿智老登型"; d="战术大师"; c="#f39c12"; m="ld.png"; }
-        else if (scores.B >= 55) { s="发球上网型"; d="网前艺术家"; c="#27ae60"; m="sv.png"; }
-        else { s="全场变化型"; d="魔术师"; c="#8e44ad"; m="ac.png"; }
-        document.getElementById('poster').style.background = c;
-        document.getElementById('res-style').innerText = s;
-        document.getElementById('res-code').innerText = `CODE: ${s.charAt(0)}T-${scores.E+scores.S}`;
-        document.getElementById('res-desc').innerText = d;
-        document.getElementById('mascot-img').src = m;
+        
+        let sStyle = "", sDesc = "", sColor = "", sMascot = "";
+        
+        // 判定算法
+        if (scores.E >= 35) {
+            sStyle = "底线进攻型 (AB)"; sDesc = "用深度和力量统治赛场的重炮手"; sColor = "linear-gradient(135deg, #e74c3c, #c0392b)"; sMascot = "ab.png";
+        } else if (scores.S >= 40) {
+            sStyle = "睿智老登型 (LD)"; sDesc = "用落点和心理博弈降维打击的战术大师"; sColor = "linear-gradient(135deg, #f39c12, #d35400)"; sMascot = "ld.png";
+        } else if (scores.B >= 55) {
+            sStyle = "发球上网型 (S&V)"; sDesc = "在电光火石间终结比赛的网前艺术家"; sColor = "linear-gradient(135deg, #27ae60, #16a085)"; sMascot = "sv.png";
+        } else {
+            sStyle = "全场变化型 (AC)"; sDesc = "战术库里永远有下一张牌的球场魔术师"; sColor = "linear-gradient(135deg, #8e44ad, #2c3e50)"; sMascot = "ac.png";
+        }
+
+        document.getElementById('poster').style.background = sColor;
+        document.getElementById('res-style').innerText = sStyle;
+        document.getElementById('res-desc').innerText = sDesc;
+        document.getElementById('mascot-img').src = sMascot;
+        
         document.getElementById('res-analysis').innerHTML = `
-            <h3>维度报告</h3>
-            <p>心理能量: ${scores.E} | 动力链: ${scores.B}</p>
-            <p>实战表现: ${scores.P} | 战术逻辑: ${scores.S}</p>
-        `;
-    }
-    render();
-</script>
-</body>
-</html>
+            <strong>📊 维度得分报告：</strong><br>
+            - 心理驱动 (E): ${scores.E} / 50<br>
+            - 动力链 (B): ${scores.B} / 75<br>
+            - 实战表现 (P): ${scores.P} /
