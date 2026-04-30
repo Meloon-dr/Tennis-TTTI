@@ -31,6 +31,7 @@
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px); /* 增加这行，让透过去的背景变模糊，类似磨砂玻璃 */
         }
 
         /* 进度条 */
@@ -113,7 +114,7 @@
             height: auto;
             margin-bottom: 15px;
             animation: floating 3s infinite ease-in-out;
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.85));
         }
 
         @keyframes floating {
