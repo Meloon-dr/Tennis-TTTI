@@ -41,6 +41,20 @@
             margin-bottom: 30px;
         }
 
+        #mascot-img {
+            width: 150px; /* 根据需要调整大小 */
+            height: auto;
+            margin: 20px 0;
+            /* 应用动画：名称 持续时间 无限循环 缓动效果 */
+            animation: floating 3s infinite ease-in-out;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2)); /* 增加阴影增强立体感 */
+        }
+        /* 定义漂浮动画逻辑 */
+        @keyframes floating {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); } /* 向上移动并轻微倾斜 */
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
         #progress-bar {
             height: 100%;
             width: 0%;
@@ -139,9 +153,12 @@
 
     <div id="result-container">
         <div class="poster" id="poster">
-            <h1 id="result-style-name">测评结果</h1>
-            <div id="result-code" style="font-size: 1.5rem; letter-spacing: 4px; background: rgba(255,255,255,0.2); display: inline-block; padding: 5px 15px; border-radius: 5px;"></div>
-            <p id="result-desc" style="margin-top: 20px;"></p>
+             <p style="text-transform: uppercase; letter-spacing: 2px;">TTTI Tennis Identity</p>
+             <img id="mascot-img" src="" alt="Mascot" style="width: 120px; height: auto; margin: 10px 0; border-radius: 10px;">
+    
+             <h1 id="result-style-name">...</h1>
+             <div class="code" id="result-code">TTTI-XXXX</div>
+             <p id="result-desc" style="margin-top: 20px; font-size: 1.1rem; opacity: 0.9;"></p>
         </div>
         <div class="analysis-card" id="result-analysis"></div>
         <button class="btn-restart" onclick="location.reload()">重新测试</button>
@@ -235,19 +252,59 @@
     }
 
     function showResult() {
-        document.getElementById('quiz-container').style.display = 'none';
-        const res = document.getElementById('result-container');
-        res.style.display = 'block';
-        
-        // 简单判定逻辑示例
-        let style = "全场变化型", code = "VERS-5.0", desc = "你具备极佳的自适应能力，能够根据场上局势灵活切换打法。";
-        if (scores.E > 40) { style = "进攻型底线手"; code = "AGGR-5.0"; desc = "你拥有极强的侵略性，倾向于在底线直接终结比赛。"; }
-        else if (scores.S > 40) { style = "战术大师"; code = "TACT-5.0"; desc = "你的比赛通过大脑赢球，精准的落点和节奏控制是你的武器。"; }
+       function showResult() {
+    document.getElementById('quiz-container').style.display = 'none';
+    document.getElementById('result-container').style.display = 'block';
 
-        document.getElementById('result-style-name').innerText = style;
-        document.getElementById('result-code').innerText = code;
-        document.getElementById('result-desc').innerText = desc;
-        document.getElementById('result-analysis').innerHTML = `
+    let style = "", code = "", desc = "", advice = "", color = "", mascot = "";
+
+    // 逻辑判定矩阵
+    if (scores.E >= 35 && scores.P >= 45) {
+        style = "底线进攻型 (AB)";
+        code = "EXP-POWER";
+        mascot = "ab.png"; // 对应老虎
+        desc = "你是球场上的‘重炮手’，用深度和力量统治底线。";
+        advice = "进阶 UTR 5.0 关键：优化二发稳定性，减少非受迫性失误。";
+        color = "linear-gradient(135deg, #e74c3c, #c0392b)";
+    } else if (scores.E < 30 && scores.P >= 40) {
+        style = "防守反击型 (CP)";
+        code = "INT-WALL";
+        mascot = "cp.png"; // 对应熊猫
+        desc = "你是一堵‘会跑动的墙’，让对手在绝望中失误。";
+        advice = "进阶 UTR 5.0 关键：加强反击时的变线能力，变守为攻。";
+        color = "linear-gradient(135deg, #2980b9, #2c3e50)";
+    } else if (scores.S >= 40 && scores.P >= 35) {
+        style = "睿智老登型 (LD)";
+        code = "TACT-MASTER";
+        mascot = "ld.png"; // 对应老鹰
+        desc = "你是‘网球棋手’，用落点和节奏降维打击年轻选手。";
+        advice = "进阶 UTR 5.0 关键：保持体能下限，利用小球和切削彻底撕碎对手节奏。";
+        color = "linear-gradient(135deg, #f39c12, #d35400)";
+    } else if (scores.B >= 55) {
+        style = "发球上网型 (S&V)";
+        code = "DYN-NET";
+        mascot = "sv.png"; // 对应兔子
+        desc = "你是‘网前艺术家’，在电光火石间终结比赛。";
+        advice = "进阶 UTR 5.0 关键：提升发球后的冲刺爆发力，强化第一跳截击。";
+        color = "linear-gradient(135deg, #27ae60, #16a085)";
+    } else {
+        style = "全场变化型 (AC)";
+        code = "VERS-FLOW";
+        mascot = "ac.png"; // 对应狐狸
+        desc = "你是‘球场魔术师’，战术库里永远有下一张牌。";
+        advice = "进阶 UTR 5.0 关键：将多样化的打法标准化，建立核心得分模板。";
+        color = "linear-gradient(135deg, #8e44ad, #2c3e50)";
+    }
+
+    // 更新界面元素
+    document.getElementById('poster').style.background = color;
+    document.getElementById('mascot-img').src = mascot; // 这一行把吉祥物显示出来
+    document.getElementById('result-style-name').innerText = style;
+    document.getElementById('result-code').innerText = code;
+    document.getElementById('result-desc').innerText = desc;
+    
+    // ... 后面原有的分析报告代码保持不变 ...
+}
             <p><b>心理能量 (E):</b> ${scores.E} / 50</p>
             <p><b>肌肉动力 (B):</b> ${scores.B} / 75</p>
             <p><b>实战指标 (P):</b> ${scores.P} / 75</p>
