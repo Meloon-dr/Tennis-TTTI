@@ -159,4 +159,15 @@
             <strong>📊 维度得分报告：</strong><br>
             - 心理驱动 (E): ${scores.E} / 50<br>
             - 动力链 (B): ${scores.B} / 75<br>
-            - 实战表现 (P): ${scores.P} /
+            - 实战表现 (P): ${scores.P} / 75<br>
+            - 战术逻辑 (S): ${scores.S} / 50<br><br>
+            <strong>💡 导师建议：</strong><br>
+            你的${scores.B < 45 ? '动力链得分尚有提升空间，建议加强核心与下肢的连贯练习。' : '动力链结构非常扎实，具备冲击更高 UTR 等级的身体基础。'}
+        `;
+    }
+
+    // 脚本自启动
+    window.onload = render;
+</script>
+</body>
+</html>
